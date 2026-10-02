@@ -1,0 +1,1882 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Checkout - ShopKart
+    </title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f5f7fb;
+
+            color: #111827;
+        }
+
+
+        /* ==================================================
+           NAVBAR
+        ================================================== */
+
+        .navbar {
+
+            background: #111827;
+
+            color: white;
+
+            padding: 16px 45px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 20px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .logo {
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 24px;
+
+            font-weight: bold;
+        }
+
+
+        .nav-links {
+
+            display: flex;
+
+            gap: 22px;
+
+            align-items: center;
+
+            flex-wrap: wrap;
+        }
+
+
+        .nav-links a {
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 14px;
+        }
+
+
+        .nav-links a:hover {
+
+            color: #60a5fa;
+        }
+
+
+        .cart-count {
+
+            background: #ef4444;
+
+            color: white;
+
+            border-radius: 20px;
+
+            padding: 2px 7px;
+
+            font-size: 11px;
+        }
+
+
+        /* ==================================================
+           PAGE HEADER
+        ================================================== */
+
+        .checkout-hero {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #7c3aed
+                );
+
+            color: white;
+
+            text-align: center;
+
+            padding: 40px 20px;
+        }
+
+
+        .checkout-hero h1 {
+
+            margin: 0 0 10px;
+
+            font-size: 34px;
+        }
+
+
+        .checkout-hero p {
+
+            margin: 0;
+
+            font-size: 15px;
+        }
+
+
+        /* ==================================================
+           CHECKOUT CONTAINER
+        ================================================== */
+
+        .checkout-container {
+
+            max-width: 1150px;
+
+            margin: 40px auto;
+
+            padding: 0 20px;
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 380px;
+
+            gap: 25px;
+
+            align-items: start;
+        }
+
+
+        /* ==================================================
+           CARDS
+        ================================================== */
+
+        .checkout-card,
+        .order-summary {
+
+            background: white;
+
+            border-radius: 12px;
+
+            padding: 25px;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0, 0, 0, 0.07);
+        }
+
+
+        .checkout-card h2,
+        .order-summary h2 {
+
+            margin-top: 0;
+
+            margin-bottom: 25px;
+
+            font-size: 22px;
+        }
+
+
+        /* ==================================================
+           FORM
+        ================================================== */
+
+        .form-group {
+
+            margin-bottom: 18px;
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-weight: bold;
+
+            font-size: 14px;
+        }
+
+
+        .required {
+
+            color: #dc2626;
+        }
+
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+
+            width: 100%;
+
+            padding: 12px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 7px;
+
+            font-size: 14px;
+
+            outline: none;
+
+            transition: 0.2s;
+        }
+
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(37, 99, 235, 0.1);
+        }
+
+
+        .form-group textarea {
+
+            min-height: 95px;
+
+            resize: vertical;
+        }
+
+
+        .form-row {
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 15px;
+        }
+
+
+        /* ==================================================
+           PAYMENT SECTION
+        ================================================== */
+
+        .payment-section {
+
+            margin-top: 25px;
+
+            padding-top: 25px;
+
+            border-top: 1px solid #e5e7eb;
+        }
+
+
+        .payment-section h3 {
+
+            margin: 0 0 15px;
+
+            font-size: 18px;
+        }
+
+
+        /* ==================================================
+           PAYMENT OPTIONS
+        ================================================== */
+
+        .payment-options {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 10px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .payment-option {
+
+            position: relative;
+        }
+
+
+        .payment-option input {
+
+            position: absolute;
+
+            opacity: 0;
+        }
+
+
+        .payment-option label {
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            text-align: center;
+
+            min-height: 70px;
+
+            padding: 10px;
+
+            border: 2px solid #e5e7eb;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            transition: 0.2s;
+        }
+
+
+        .payment-option label:hover {
+
+            border-color: #93c5fd;
+        }
+
+
+        .payment-option input:checked + label {
+
+            border-color: #2563eb;
+
+            background: #eff6ff;
+
+            color: #2563eb;
+        }
+
+
+        /* ==================================================
+           PAYMENT DETAILS BOX
+        ================================================== */
+
+        .payment-details {
+
+            display: none;
+
+            padding: 18px;
+
+            background: #f9fafb;
+
+            border-radius: 8px;
+
+            margin-top: 10px;
+        }
+
+
+        .payment-details.active {
+
+            display: block;
+        }
+
+
+        .payment-details-title {
+
+            font-weight: bold;
+
+            margin-bottom: 15px;
+        }
+
+
+        .card-row {
+
+            display: grid;
+
+            grid-template-columns:
+                2fr 1fr;
+
+            gap: 12px;
+        }
+
+
+        .payment-note {
+
+            color: #6b7280;
+
+            font-size: 12px;
+
+            margin-top: 8px;
+
+            line-height: 1.5;
+        }
+
+
+        /* ==================================================
+           COD
+        ================================================== */
+
+        .cod-box {
+
+            background: #f0fdf4;
+
+            border: 1px solid #bbf7d0;
+
+            color: #166534;
+
+            padding: 15px;
+
+            border-radius: 8px;
+
+            line-height: 1.6;
+
+            font-size: 14px;
+        }
+
+
+        /* ==================================================
+           ORDER SUMMARY
+        ================================================== */
+
+        .cart-product {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            margin-bottom: 15px;
+
+            padding-bottom: 15px;
+
+            border-bottom: 1px solid #eee;
+        }
+
+
+        .cart-product img {
+
+            width: 60px;
+
+            height: 60px;
+
+            object-fit: contain;
+
+            background: #f5f5f5;
+
+            border-radius: 6px;
+
+            padding: 4px;
+        }
+
+
+        .cart-product-info {
+
+            flex: 1;
+
+            min-width: 0;
+        }
+
+
+        .cart-product-info strong {
+
+            display: block;
+
+            font-size: 13px;
+
+            margin-bottom: 5px;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
+        }
+
+
+        .cart-product-info span {
+
+            font-size: 12px;
+
+            color: #6b7280;
+        }
+
+
+        .item-total {
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+        }
+
+
+        .summary-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            margin: 15px 0;
+
+            font-size: 14px;
+        }
+
+
+        .summary-total {
+
+            border-top: 1px solid #ddd;
+
+            padding-top: 18px;
+
+            margin-top: 20px;
+
+            font-size: 20px;
+
+            font-weight: bold;
+        }
+
+
+        .summary-total strong {
+
+            color: #2563eb;
+        }
+
+
+        /* ==================================================
+           PLACE ORDER
+        ================================================== */
+
+        .place-order-btn {
+
+            width: 100%;
+
+            padding: 14px;
+
+            margin-top: 20px;
+
+            background: #16a34a;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 7px;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        .place-order-btn:hover {
+
+            background: #15803d;
+
+            transform: translateY(-1px);
+        }
+
+
+        .place-order-btn:disabled {
+
+            background: #9ca3af;
+
+            cursor: not-allowed;
+
+            transform: none;
+        }
+
+
+        /* ==================================================
+           EMPTY CART
+        ================================================== */
+
+        .empty-message {
+
+            text-align: center;
+
+            padding: 30px 15px;
+
+            color: #6b7280;
+
+            line-height: 1.7;
+        }
+
+
+        .empty-message a {
+
+            display: inline-block;
+
+            margin-top: 10px;
+
+            color: #2563eb;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+
+        /* ==================================================
+           SECURITY INFO
+        ================================================== */
+
+        .secure-box {
+
+            margin-top: 20px;
+
+            padding: 12px;
+
+            background: #f0fdf4;
+
+            border-radius: 7px;
+
+            color: #166534;
+
+            font-size: 12px;
+
+            text-align: center;
+        }
+
+
+        /* ==================================================
+           FOOTER
+        ================================================== */
+
+        footer {
+
+            margin-top: 60px;
+
+            background: #111827;
+
+            color: white;
+
+            text-align: center;
+
+            padding: 25px;
+        }
+
+
+        /* ==================================================
+           RESPONSIVE
+        ================================================== */
+
+        @media (max-width: 850px) {
+
+            .checkout-container {
+
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .navbar {
+
+                padding: 15px 20px;
+            }
+
+
+            .nav-links {
+
+                gap: 12px;
+            }
+
+
+            .checkout-container {
+
+                padding: 0 15px;
+
+                margin: 25px auto;
+            }
+
+
+            .checkout-card,
+            .order-summary {
+
+                padding: 18px;
+            }
+
+
+            .form-row {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .payment-options {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .card-row {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .checkout-hero h1 {
+
+                font-size: 28px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ==================================================
+         USER ID
+    ================================================== -->
+
+    <div
+        id="shopkart-user-id"
+        data-user-id="{{ session.get('user_id', 'guest') }}"
+        style="display:none;"
+    ></div>
+
+
+    <!-- ==================================================
+         NAVBAR
+    ================================================== -->
+
+    <nav class="navbar">
+
+
+        <a
+            href="/"
+            class="logo"
+        >
+            🛒 ShopKart
+        </a>
+
+
+        <div class="nav-links">
+
+
+            <a href="/">
+                Home
+            </a>
+
+
+            <a href="/products">
+                Products
+            </a>
+
+
+            <a href="/cart">
+                🛒 Cart
+            </a>
+
+
+            {% if session.get("user_id") %}
+
+                <a href="/orders">
+                    My Orders
+                </a>
+
+
+                {% if session.get("user_role") == "admin" %}
+
+                    <a href="/admin">
+                        Admin
+                    </a>
+
+                {% endif %}
+
+
+                <a href="/logout">
+                    Logout
+                </a>
+
+            {% endif %}
+
+
+        </div>
+
+    </nav>
+
+
+    <!-- ==================================================
+         HEADER
+    ================================================== -->
+
+    <section class="checkout-hero">
+
+        <h1>
+            🧾 Checkout
+        </h1>
+
+        <p>
+            Complete your details and place your order
+        </p>
+
+    </section>
+
+
+    <!-- ==================================================
+         CHECKOUT
+    ================================================== -->
+
+    <div class="checkout-container">
+
+
+        <!-- ==================================================
+             CUSTOMER DETAILS
+        ================================================== -->
+
+        <div class="checkout-card">
+
+
+            <h2>
+                👤 Delivery Details
+            </h2>
+
+
+            <form
+                id="checkout-form"
+                action="/place-order"
+                method="POST"
+            >
+
+
+                <!-- CUSTOMER NAME -->
+
+                <div class="form-group">
+
+                    <label for="customer_name">
+
+                        Customer Name
+                        <span class="required">*</span>
+
+                    </label>
+
+
+                    <input
+                        type="text"
+                        id="customer_name"
+                        name="customer_name"
+                        value="{{ session.get('user_name', '') }}"
+                        placeholder="Enter your name"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label for="email">
+
+                        Email
+                        <span class="required">*</span>
+
+                    </label>
+
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value="{{ session.get('user_email', '') }}"
+                        placeholder="Enter your email"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- PHONE -->
+
+                <div class="form-group">
+
+                    <label for="phone">
+
+                        Phone Number
+                        <span class="required">*</span>
+
+                    </label>
+
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        placeholder="Enter 10-digit phone number"
+                        pattern="[0-9]{10}"
+                        maxlength="10"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- ADDRESS -->
+
+                <div class="form-group">
+
+                    <label for="address">
+
+                        Address
+                        <span class="required">*</span>
+
+                    </label>
+
+
+                    <textarea
+                        id="address"
+                        name="address"
+                        placeholder="Enter your full delivery address"
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <!-- CITY + PINCODE -->
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label for="city">
+
+                            City
+                            <span class="required">*</span>
+
+                        </label>
+
+
+                        <input
+                            type="text"
+                            id="city"
+                            name="city"
+                            placeholder="Enter city"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="pincode">
+
+                            Pincode
+                            <span class="required">*</span>
+
+                        </label>
+
+
+                        <input
+                            type="text"
+                            id="pincode"
+                            name="pincode"
+                            placeholder="6-digit pincode"
+                            pattern="[0-9]{6}"
+                            maxlength="6"
+                            required
+                        >
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- ==================================================
+                     PAYMENT
+                ================================================== -->
+
+                <div class="payment-section">
+
+
+                    <h3>
+                        💳 Payment Method
+                    </h3>
+
+
+                    <div class="payment-options">
+
+
+                        <!-- COD -->
+
+                        <div class="payment-option">
+
+                            <input
+                                type="radio"
+                                id="cod"
+                                name="payment_method"
+                                value="Cash on Delivery"
+                                required
+                                onchange="showPaymentMethod('cod')"
+                            >
+
+
+                            <label for="cod">
+
+                                💵
+                                <br>
+                                Cash on Delivery
+
+                            </label>
+
+                        </div>
+
+
+                        <!-- UPI -->
+
+                        <div class="payment-option">
+
+                            <input
+                                type="radio"
+                                id="upi"
+                                name="payment_method"
+                                value="UPI"
+                                onchange="showPaymentMethod('upi')"
+                            >
+
+
+                            <label for="upi">
+
+                                📱
+                                <br>
+                                UPI
+
+                            </label>
+
+                        </div>
+
+
+                        <!-- CARD -->
+
+                        <div class="payment-option">
+
+                            <input
+                                type="radio"
+                                id="card"
+                                name="payment_method"
+                                value="Card"
+                                onchange="showPaymentMethod('card')"
+                            >
+
+
+                            <label for="card">
+
+                                💳
+                                <br>
+                                Card
+
+                            </label>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- ==================================================
+                         COD DETAILS
+                    ================================================== -->
+
+                    <div
+                        id="cod-details"
+                        class="payment-details"
+                    >
+
+                        <div class="cod-box">
+
+                            <strong>
+                                💵 Cash on Delivery
+                            </strong>
+
+                            <br><br>
+
+                            Pay the order amount when
+                            your package is delivered.
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ==================================================
+                         UPI DETAILS
+                    ================================================== -->
+
+                    <div
+                        id="upi-details"
+                        class="payment-details"
+                    >
+
+                        <div class="payment-details-title">
+
+                            📱 UPI Payment
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="upi_id">
+
+                                UPI ID
+
+                            </label>
+
+
+                            <input
+                                type="text"
+                                id="upi_id"
+                                name="upi_id"
+                                placeholder="example@upi"
+                            >
+
+                        </div>
+
+
+                        <div class="payment-note">
+
+                            Demo payment interface.
+                            No real payment will be deducted.
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ==================================================
+                         CARD DETAILS
+                    ================================================== -->
+
+                    <div
+                        id="card-details"
+                        class="payment-details"
+                    >
+
+                        <div class="payment-details-title">
+
+                            💳 Card Details
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="card_number">
+
+                                Card Number
+
+                            </label>
+
+
+                            <input
+                                type="text"
+                                id="card_number"
+                                name="card_number"
+                                placeholder="1234 5678 9012 3456"
+                                maxlength="19"
+                            >
+
+                        </div>
+
+
+                        <div class="card-row">
+
+
+                            <div class="form-group">
+
+                                <label for="card_name">
+
+                                    Name on Card
+
+                                </label>
+
+
+                                <input
+                                    type="text"
+                                    id="card_name"
+                                    name="card_name"
+                                    placeholder="Name on card"
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="cvv">
+
+                                    CVV
+
+                                </label>
+
+
+                                <input
+                                    type="password"
+                                    id="cvv"
+                                    name="cvv"
+                                    placeholder="CVV"
+                                    maxlength="3"
+                                >
+
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="payment-note">
+
+                            Demo payment interface.
+                            No real card transaction will occur.
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- ==================================================
+                     HIDDEN TOTAL
+                ================================================== -->
+
+                <input
+                    type="hidden"
+                    name="total_amount"
+                    id="total_amount"
+                >
+
+
+                <!-- ==================================================
+                     HIDDEN CART ITEMS
+                ================================================== -->
+
+                <div
+                    id="hidden-cart-items"
+                ></div>
+
+
+                <!-- ==================================================
+                     PLACE ORDER
+                ================================================== -->
+
+                <button
+                    type="submit"
+                    class="place-order-btn"
+                    id="place-order-btn"
+                >
+
+                    ✅ Place Order
+
+                </button>
+
+
+            </form>
+
+
+            <div class="secure-box">
+
+                🔒 Your order information is securely
+                processed by ShopKart.
+
+            </div>
+
+
+        </div>
+
+
+        <!-- ==================================================
+             ORDER SUMMARY
+        ================================================== -->
+
+        <div class="order-summary">
+
+
+            <h2>
+                🛒 Order Summary
+            </h2>
+
+
+            <div id="checkout-products">
+
+                <!-- Products inserted by JavaScript -->
+
+            </div>
+
+
+            <div class="summary-row">
+
+                <span>
+                    Total Items
+                </span>
+
+
+                <strong id="checkout-total-items">
+
+                    0
+
+                </strong>
+
+            </div>
+
+
+            <div class="summary-row summary-total">
+
+                <span>
+                    Total
+                </span>
+
+
+                <strong id="checkout-total">
+
+                    ₹0.00
+
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ==================================================
+         FOOTER
+    ================================================== -->
+
+    <footer>
+
+        <p>
+
+            © 2026 ShopKart.
+            All rights reserved.
+
+        </p>
+
+    </footer>
+
+
+    <!-- ==================================================
+         CHECKOUT JAVASCRIPT
+    ================================================== -->
+
+    <script>
+
+
+        // ==================================================
+        // USER-SPECIFIC CART KEY
+        // ==================================================
+
+        function getCheckoutCartKey() {
+
+            const userElement =
+                document.getElementById(
+                    "shopkart-user-id"
+                );
+
+
+            if (!userElement) {
+
+                return "shopkart_cart_user_guest";
+
+            }
+
+
+            const userId =
+                userElement.dataset.userId;
+
+
+            return "shopkart_cart_user_" + userId;
+
+        }
+
+
+        // ==================================================
+        // GET CART
+        // ==================================================
+
+        function getCheckoutCart() {
+
+            const key =
+                getCheckoutCartKey();
+
+
+            try {
+
+                return JSON.parse(
+                    localStorage.getItem(key)
+                ) || [];
+
+            } catch (error) {
+
+                console.error(
+                    "Cart loading error:",
+                    error
+                );
+
+                return [];
+
+            }
+
+        }
+
+
+        // ==================================================
+        // PAYMENT METHOD
+        // ==================================================
+
+        function showPaymentMethod(method) {
+
+
+            const codDetails =
+                document.getElementById(
+                    "cod-details"
+                );
+
+
+            const upiDetails =
+                document.getElementById(
+                    "upi-details"
+                );
+
+
+            const cardDetails =
+                document.getElementById(
+                    "card-details"
+                );
+
+
+            codDetails.classList.remove("active");
+
+            upiDetails.classList.remove("active");
+
+            cardDetails.classList.remove("active");
+
+
+            if (method === "cod") {
+
+                codDetails.classList.add("active");
+
+            }
+
+
+            if (method === "upi") {
+
+                upiDetails.classList.add("active");
+
+            }
+
+
+            if (method === "card") {
+
+                cardDetails.classList.add("active");
+
+            }
+
+        }
+
+
+        // ==================================================
+        // LOAD CHECKOUT
+        // ==================================================
+
+        function loadCheckout() {
+
+
+            const cart =
+                getCheckoutCart();
+
+
+            const productsContainer =
+                document.getElementById(
+                    "checkout-products"
+                );
+
+
+            const hiddenContainer =
+                document.getElementById(
+                    "hidden-cart-items"
+                );
+
+
+            const totalItemsElement =
+                document.getElementById(
+                    "checkout-total-items"
+                );
+
+
+            const totalElement =
+                document.getElementById(
+                    "checkout-total"
+                );
+
+
+            const totalAmountInput =
+                document.getElementById(
+                    "total_amount"
+                );
+
+
+            const placeOrderButton =
+                document.getElementById(
+                    "place-order-btn"
+                );
+
+
+            let totalItems = 0;
+
+            let totalAmount = 0;
+
+
+            productsContainer.innerHTML = "";
+
+            hiddenContainer.innerHTML = "";
+
+
+            // ==================================================
+            // EMPTY CART
+            // ==================================================
+
+            if (cart.length === 0) {
+
+
+                productsContainer.innerHTML = `
+
+                    <div class="empty-message">
+
+                        🛒 Your cart is empty.
+
+                        <br><br>
+
+                        <a href="/products">
+                            Continue Shopping
+                        </a>
+
+                    </div>
+
+                `;
+
+
+                totalItemsElement.textContent =
+                    "0";
+
+
+                totalElement.textContent =
+                    "₹0.00";
+
+
+                totalAmountInput.value =
+                    "0";
+
+
+                placeOrderButton.disabled =
+                    true;
+
+
+                return;
+
+            }
+
+
+            // ==================================================
+            // PRODUCTS
+            // ==================================================
+
+            cart.forEach(function(product) {
+
+
+                const productId =
+                    Number(product.id);
+
+
+                const quantity =
+                    Number(product.quantity);
+
+
+                const price =
+                    Number(product.price);
+
+
+                const itemTotal =
+                    price * quantity;
+
+
+                totalItems += quantity;
+
+                totalAmount += itemTotal;
+
+
+                // ==================================================
+                // DISPLAY PRODUCT
+                // ==================================================
+
+                productsContainer.innerHTML += `
+
+                    <div class="cart-product">
+
+                        <img
+                            src="/static/images/${product.image}"
+                            alt="Product"
+                        >
+
+                        <div class="cart-product-info">
+
+                            <strong>
+                                ${product.name}
+                            </strong>
+
+                            <span>
+
+                                ₹${price.toFixed(2)}
+
+                                ×
+
+                                ${quantity}
+
+                            </span>
+
+                        </div>
+
+                        <div class="item-total">
+
+                            ₹${itemTotal.toFixed(2)}
+
+                        </div>
+
+                    </div>
+
+                `;
+
+
+                // ==================================================
+                // PRODUCT ID
+                // ==================================================
+
+                const productIdInput =
+                    document.createElement(
+                        "input"
+                    );
+
+
+                productIdInput.type =
+                    "hidden";
+
+
+                productIdInput.name =
+                    "product_id";
+
+
+                productIdInput.value =
+                    productId;
+
+
+                hiddenContainer.appendChild(
+                    productIdInput
+                );
+
+
+                // ==================================================
+                // QUANTITY
+                // ==================================================
+
+                const quantityInput =
+                    document.createElement(
+                        "input"
+                    );
+
+
+                quantityInput.type =
+                    "hidden";
+
+
+                quantityInput.name =
+                    "quantity";
+
+
+                quantityInput.value =
+                    quantity;
+
+
+                hiddenContainer.appendChild(
+                    quantityInput
+                );
+
+
+                // ==================================================
+                // PRICE
+                // ==================================================
+
+                const priceInput =
+                    document.createElement(
+                        "input"
+                    );
+
+
+                priceInput.type =
+                    "hidden";
+
+
+                priceInput.name =
+                    "price";
+
+
+                priceInput.value =
+                    price;
+
+
+                hiddenContainer.appendChild(
+                    priceInput
+                );
+
+
+            });
+
+
+            // ==================================================
+            // UPDATE SUMMARY
+            // ==================================================
+
+            totalItemsElement.textContent =
+                totalItems;
+
+
+            totalElement.textContent =
+                "₹" + totalAmount.toFixed(2);
+
+
+            totalAmountInput.value =
+                totalAmount.toFixed(2);
+
+
+        }
+
+
+        // ==================================================
+        // CARD NUMBER FORMAT
+        // ==================================================
+
+        const cardNumber =
+            document.getElementById(
+                "card_number"
+            );
+
+
+        if (cardNumber) {
+
+            cardNumber.addEventListener(
+                "input",
+                function () {
+
+
+                    let value =
+                        this.value.replace(
+                            /\D/g,
+                            ""
+                        );
+
+
+                    value =
+                        value.substring(
+                            0,
+                            16
+                        );
+
+
+                    let formatted = "";
+
+
+                    for (
+                        let i = 0;
+                        i < value.length;
+                        i++
+                    ) {
+
+                        if (
+                            i > 0 &&
+                            i % 4 === 0
+                        ) {
+
+                            formatted += " ";
+
+                        }
+
+
+                        formatted +=
+                            value[i];
+
+                    }
+
+
+                    this.value =
+                        formatted;
+
+                }
+            );
+
+        }
+
+
+        // ==================================================
+        // PAGE LOAD
+        // ==================================================
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                loadCheckout();
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>

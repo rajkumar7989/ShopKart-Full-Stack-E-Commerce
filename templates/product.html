@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {{ product['name'] }} - ShopKart
+    </title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family: Arial, Helvetica, sans-serif;
+
+            background: #f5f7fb;
+
+            color: #111827;
+        }
+
+
+        /* ==================================================
+           NAVBAR
+        ================================================== */
+
+        .navbar {
+
+            background: #111827;
+
+            color: white;
+
+            padding: 16px 45px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 20px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .logo {
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 24px;
+
+            font-weight: bold;
+        }
+
+
+        .nav-links {
+
+            display: flex;
+
+            gap: 22px;
+
+            align-items: center;
+
+            flex-wrap: wrap;
+        }
+
+
+        .nav-links a {
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 14px;
+        }
+
+
+        .nav-links a:hover {
+
+            color: #60a5fa;
+        }
+
+
+        .cart-count {
+
+            background: #ef4444;
+
+            color: white;
+
+            border-radius: 20px;
+
+            padding: 2px 7px;
+
+            font-size: 11px;
+        }
+
+
+        /* ==================================================
+           MAIN CONTAINER
+        ================================================== */
+
+        .container {
+
+            max-width: 1100px;
+
+            margin: 40px auto;
+
+            padding: 0 20px;
+        }
+
+
+        /* ==================================================
+           BREADCRUMB
+        ================================================== */
+
+        .breadcrumb {
+
+            margin-bottom: 25px;
+
+            font-size: 14px;
+
+            color: #6b7280;
+        }
+
+
+        .breadcrumb a {
+
+            color: #2563eb;
+
+            text-decoration: none;
+        }
+
+
+        .breadcrumb a:hover {
+
+            text-decoration: underline;
+        }
+
+
+        /* ==================================================
+           PRODUCT DETAILS
+        ================================================== */
+
+        .product-details {
+
+            background: white;
+
+            border-radius: 15px;
+
+            padding: 30px;
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 45px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0, 0, 0, 0.08);
+        }
+
+
+        /* ==================================================
+           IMAGE SECTION
+        ================================================== */
+
+        .image-section {
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            min-height: 420px;
+
+            background: #f9fafb;
+
+            border-radius: 12px;
+
+            padding: 25px;
+        }
+
+
+        .product-image {
+
+            width: 100%;
+
+            max-width: 450px;
+
+            height: 400px;
+
+            object-fit: contain;
+
+            display: block;
+        }
+
+
+        /* ==================================================
+           PRODUCT INFORMATION
+        ================================================== */
+
+        .product-info {
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+        }
+
+
+        .product-category {
+
+            display: inline-block;
+
+            width: fit-content;
+
+            background: #eef2ff;
+
+            color: #4f46e5;
+
+            padding: 6px 12px;
+
+            border-radius: 20px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            margin-bottom: 15px;
+        }
+
+
+        .product-info h1 {
+
+            margin: 0 0 15px;
+
+            font-size: 32px;
+
+            line-height: 1.3;
+
+            color: #111827;
+        }
+
+
+        .product-description {
+
+            color: #6b7280;
+
+            font-size: 15px;
+
+            line-height: 1.7;
+
+            margin-bottom: 20px;
+        }
+
+
+        /* ==================================================
+           PRICE
+        ================================================== */
+
+        .product-price {
+
+            font-size: 30px;
+
+            color: #2563eb;
+
+            font-weight: bold;
+
+            margin-bottom: 15px;
+        }
+
+
+        /* ==================================================
+           STOCK
+        ================================================== */
+
+        .stock {
+
+            font-size: 14px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .stock-available {
+
+            color: #16a34a;
+
+            font-weight: bold;
+        }
+
+
+        .stock-low {
+
+            color: #d97706;
+
+            font-weight: bold;
+        }
+
+
+        .stock-out {
+
+            color: #dc2626;
+
+            font-weight: bold;
+        }
+
+
+        /* ==================================================
+           ADD TO CART
+        ================================================== */
+
+        .add-cart-btn {
+
+            width: 100%;
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #2563eb;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        .add-cart-btn:hover {
+
+            background: #1d4ed8;
+
+            transform: translateY(-2px);
+        }
+
+
+        .add-cart-btn:disabled {
+
+            background: #9ca3af;
+
+            cursor: not-allowed;
+
+            transform: none;
+        }
+
+
+        /* ==================================================
+           BACK BUTTON
+        ================================================== */
+
+        .back-btn {
+
+            display: block;
+
+            text-align: center;
+
+            margin-top: 12px;
+
+            padding: 12px;
+
+            border: 1px solid #2563eb;
+
+            border-radius: 8px;
+
+            color: #2563eb;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            transition: 0.2s;
+        }
+
+
+        .back-btn:hover {
+
+            background: #2563eb;
+
+            color: white;
+        }
+
+
+        /* ==================================================
+           INFORMATION BOX
+        ================================================== */
+
+        .info-box {
+
+            margin-top: 25px;
+
+            padding: 18px;
+
+            background: #f9fafb;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            color: #4b5563;
+
+            line-height: 1.8;
+        }
+
+
+        .info-box strong {
+
+            color: #111827;
+        }
+
+
+        /* ==================================================
+           FOOTER
+        ================================================== */
+
+        footer {
+
+            margin-top: 60px;
+
+            background: #111827;
+
+            color: white;
+
+            text-align: center;
+
+            padding: 25px;
+        }
+
+
+        /* ==================================================
+           TABLET
+        ================================================== */
+
+        @media (max-width: 800px) {
+
+            .product-details {
+
+                grid-template-columns: 1fr;
+
+                gap: 25px;
+
+                padding: 20px;
+            }
+
+
+            .image-section {
+
+                min-height: 350px;
+            }
+
+
+            .product-image {
+
+                height: 330px;
+            }
+
+
+            .product-info h1 {
+
+                font-size: 28px;
+            }
+
+        }
+
+
+        /* ==================================================
+           MOBILE
+        ================================================== */
+
+        @media (max-width: 600px) {
+
+            .navbar {
+
+                padding: 15px 20px;
+            }
+
+
+            .nav-links {
+
+                gap: 12px;
+            }
+
+
+            .container {
+
+                margin: 25px auto;
+
+                padding: 0 15px;
+            }
+
+
+            .product-details {
+
+                padding: 15px;
+            }
+
+
+            .image-section {
+
+                min-height: 280px;
+
+                padding: 15px;
+            }
+
+
+            .product-image {
+
+                height: 260px;
+            }
+
+
+            .product-info h1 {
+
+                font-size: 24px;
+            }
+
+
+            .product-price {
+
+                font-size: 26px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ==================================================
+         USER ID
+    ================================================== -->
+
+    <div
+        id="shopkart-user-id"
+        data-user-id="{{ session.get('user_id', 'guest') }}"
+        style="display: none;"
+    ></div>
+
+
+    <!-- ==================================================
+         NAVBAR
+    ================================================== -->
+
+    <nav class="navbar">
+
+
+        <a
+            href="/"
+            class="logo"
+        >
+            🛒 ShopKart
+        </a>
+
+
+        <div class="nav-links">
+
+
+            <a href="/">
+                Home
+            </a>
+
+
+            <a href="/products">
+                Products
+            </a>
+
+
+            {% if session.get("user_id") %}
+
+
+                <a href="/orders">
+                    My Orders
+                </a>
+
+
+                {% if session.get("user_role") == "admin" %}
+
+                    <a href="/admin">
+                        Admin
+                    </a>
+
+                {% endif %}
+
+
+                <a href="/logout">
+                    Logout
+                </a>
+
+
+            {% else %}
+
+
+                <a href="/login">
+                    Login
+                </a>
+
+
+                <a href="/register">
+                    Register
+                </a>
+
+
+            {% endif %}
+
+
+            <a href="/cart">
+
+                🛒 Cart
+
+                <span class="cart-count">
+                    0
+                </span>
+
+            </a>
+
+
+        </div>
+
+    </nav>
+
+
+    <!-- ==================================================
+         MAIN
+    ================================================== -->
+
+    <div class="container">
+
+
+        <!-- ==================================================
+             BREADCRUMB
+        ================================================== -->
+
+        <div class="breadcrumb">
+
+
+            <a href="/">
+                Home
+            </a>
+
+
+            &nbsp; / &nbsp;
+
+
+            <a href="/products">
+                Products
+            </a>
+
+
+            &nbsp; / &nbsp;
+
+
+            {{ product['name'] }}
+
+
+        </div>
+
+
+        <!-- ==================================================
+             PRODUCT DETAILS
+        ================================================== -->
+
+        <div class="product-details">
+
+
+            <!-- ==================================================
+                 PRODUCT IMAGE
+            ================================================== -->
+
+            <div class="image-section">
+
+
+                <img
+                    src="{{ url_for(
+                        'static',
+                        filename='images/' + product['image']
+                    ) }}"
+                    alt="{{ product['name'] }}"
+                    class="product-image"
+                >
+
+
+            </div>
+
+
+            <!-- ==================================================
+                 PRODUCT INFORMATION
+            ================================================== -->
+
+            <div class="product-info">
+
+
+                <!-- CATEGORY -->
+
+                <div class="product-category">
+
+                    {{ product['category'] }}
+
+                </div>
+
+
+                <!-- PRODUCT NAME -->
+
+                <h1>
+
+                    {{ product['name'] }}
+
+                </h1>
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="product-description">
+
+
+                    {% if product['description'] %}
+
+                        {{ product['description'] }}
+
+                    {% else %}
+
+                        No description available
+                        for this product.
+
+                    {% endif %}
+
+
+                </div>
+
+
+                <!-- PRICE -->
+
+                <div class="product-price">
+
+                    ₹{{ product['price'] }}
+
+                </div>
+
+
+                <!-- ==================================================
+                     STOCK STATUS
+                ================================================== -->
+
+                <div class="stock">
+
+
+                    {% if product['stock'] > 10 %}
+
+
+                        <span class="stock-available">
+
+                            ✓ In Stock
+
+                        </span>
+
+
+                        &nbsp;
+
+
+                        ({{ product['stock'] }} available)
+
+
+                    {% elif product['stock'] > 0 %}
+
+
+                        <span class="stock-low">
+
+                            ⚠ Only
+                            {{ product['stock'] }}
+                            left in stock
+
+                        </span>
+
+
+                    {% else %}
+
+
+                        <span class="stock-out">
+
+                            ✕ Out of Stock
+
+                        </span>
+
+
+                    {% endif %}
+
+
+                </div>
+
+
+                <!-- ==================================================
+                     ADD TO CART
+                ================================================== -->
+
+                {% if product['stock'] > 0 %}
+
+
+                    <button
+                        type="button"
+                        class="add-cart-btn"
+                        data-id="{{ product['id'] }}"
+                        data-name="{{ product['name']|e }}"
+                        data-price="{{ product['price'] }}"
+                        data-stock="{{ product['stock'] }}"
+                        data-image="{{ product['image']|e }}"
+                        onclick="shopKartAddToCart(this.dataset.id, this.dataset.name, this.dataset.price, this.dataset.stock, this.dataset.image)"
+                    >
+
+                        🛒 Add to Cart
+
+                    </button>
+
+
+                {% else %}
+
+
+                    <button
+                        type="button"
+                        class="add-cart-btn"
+                        disabled
+                    >
+
+                        Out of Stock
+
+                    </button>
+
+
+                {% endif %}
+
+
+                <!-- ==================================================
+                     BACK TO PRODUCTS
+                ================================================== -->
+
+                <a
+                    href="/products"
+                    class="back-btn"
+                >
+
+                    ← Back to Products
+
+                </a>
+
+
+                <!-- ==================================================
+                     PRODUCT INFORMATION
+                ================================================== -->
+
+                <div class="info-box">
+
+
+                    <strong>
+                        Product Information
+                    </strong>
+
+
+                    <br>
+
+
+                    Category:
+                    {{ product['category'] }}
+
+
+                    <br>
+
+
+                    Available Stock:
+                    {{ product['stock'] }}
+
+
+                    <br>
+
+
+                    Product ID:
+                    #{{ product['id'] }}
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ==================================================
+         FOOTER
+    ================================================== -->
+
+    <footer>
+
+
+        <p>
+
+            © 2026 ShopKart.
+            All rights reserved.
+
+        </p>
+
+
+    </footer>
+
+
+    <!-- ==================================================
+         JAVASCRIPT
+    ================================================== -->
+
+    <script
+        src="{{ url_for(
+            'static',
+            filename='js/script.js'
+        ) }}"
+    ></script>
+
+
+</body>
+
+</html>

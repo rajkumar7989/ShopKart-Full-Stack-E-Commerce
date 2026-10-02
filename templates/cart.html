@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Cart - ShopKart
+    </title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            background: #f5f7fb;
+
+        }
+
+
+        .navbar {
+
+            background: #111827;
+
+            padding: 16px 40px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            flex-wrap: wrap;
+
+        }
+
+
+        .logo {
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 24px;
+
+            font-weight: bold;
+
+        }
+
+
+        .nav-links {
+
+            display: flex;
+
+            gap: 20px;
+
+            align-items: center;
+
+        }
+
+
+        .nav-links a {
+
+            color: white;
+
+            text-decoration: none;
+
+        }
+
+
+        .cart-count {
+
+            background: #ef4444;
+
+            color: white;
+
+            padding: 2px 7px;
+
+            border-radius: 20px;
+
+            font-size: 11px;
+
+        }
+
+
+        .container {
+
+            max-width: 1200px;
+
+            margin: 35px auto;
+
+            padding: 20px;
+
+        }
+
+
+        .page-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .clear-cart-btn {
+
+            border: none;
+
+            background: #fee2e2;
+
+            color: #dc2626;
+
+            padding: 10px 15px;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+
+        }
+
+
+        .cart-layout {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 330px;
+
+            gap: 25px;
+
+        }
+
+
+        #cart-items {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 15px;
+
+        }
+
+
+        .cart-item {
+
+            background: white;
+
+            padding: 18px;
+
+            border-radius: 10px;
+
+            display: grid;
+
+            grid-template-columns:
+                90px 1fr auto auto auto;
+
+            gap: 18px;
+
+            align-items: center;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0,0,0,.07);
+
+        }
+
+
+        .cart-image-box {
+
+            width: 90px;
+
+            height: 90px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            background: #f3f4f6;
+
+            border-radius: 8px;
+
+        }
+
+
+        .cart-product-image {
+
+            width: 82px;
+
+            height: 82px;
+
+            object-fit: contain;
+
+        }
+
+
+        .cart-product-info h3 {
+
+            margin: 0 0 8px;
+
+        }
+
+
+        .cart-price {
+
+            color: #2563eb;
+
+            font-weight: bold;
+
+            margin: 0 0 5px;
+
+        }
+
+
+        .cart-stock {
+
+            color: #6b7280;
+
+            font-size: 13px;
+
+        }
+
+
+        .quantity-control {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+        }
+
+
+        .quantity-control button {
+
+            width: 32px;
+
+            height: 32px;
+
+            border: none;
+
+            border-radius: 5px;
+
+            background: #e5e7eb;
+
+            font-size: 20px;
+
+            cursor: pointer;
+
+        }
+
+
+        .quantity-control span {
+
+            min-width: 25px;
+
+            text-align: center;
+
+            font-weight: bold;
+
+        }
+
+
+        .cart-item-total {
+
+            font-weight: bold;
+
+        }
+
+
+        .remove-btn {
+
+            border: none;
+
+            background: #fee2e2;
+
+            color: #dc2626;
+
+            padding: 8px;
+
+            border-radius: 5px;
+
+            cursor: pointer;
+
+        }
+
+
+        .cart-summary {
+
+            background: white;
+
+            padding: 22px;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0,0,0,.07);
+
+            height: fit-content;
+
+            position: sticky;
+
+            top: 20px;
+
+        }
+
+
+        .summary-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            margin: 14px 0;
+
+        }
+
+
+        .summary-total {
+
+            border-top: 1px solid #ddd;
+
+            padding-top: 15px;
+
+            font-size: 20px;
+
+            font-weight: bold;
+
+        }
+
+
+        .checkout-btn {
+
+            display: block;
+
+            width: 100%;
+
+            padding: 13px;
+
+            margin-top: 20px;
+
+            background: #16a34a;
+
+            color: white;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            border-radius: 6px;
+
+            font-weight: bold;
+
+        }
+
+
+        .continue-shopping {
+
+            display: block;
+
+            text-align: center;
+
+            margin-top: 15px;
+
+            color: #2563eb;
+
+            text-decoration: none;
+
+        }
+
+
+        .empty-cart {
+
+            background: white;
+
+            padding: 70px 20px;
+
+            border-radius: 10px;
+
+            text-align: center;
+
+        }
+
+
+        .empty-cart-icon {
+
+            font-size: 65px;
+
+        }
+
+
+        .empty-cart p {
+
+            color: #6b7280;
+
+        }
+
+
+        @media (max-width: 900px) {
+
+            .cart-layout {
+
+                grid-template-columns: 1fr;
+
+            }
+
+            .cart-summary {
+
+                position: static;
+
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .cart-item {
+
+                grid-template-columns:
+                    75px 1fr;
+
+            }
+
+            .quantity-control,
+            .cart-item-total,
+            .remove-btn {
+
+                grid-column: 2;
+
+                justify-self: start;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- IMPORTANT -->
+
+    <div
+        id="shopkart-user-id"
+        data-user-id="{{ session.get('user_id', 'guest') }}"
+        style="display:none;"
+    ></div>
+
+
+    <nav class="navbar">
+
+        <a
+            href="/"
+            class="logo"
+        >
+            🛒 ShopKart
+        </a>
+
+
+        <div class="nav-links">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/products">
+                Products
+            </a>
+
+
+            {% if session.get("user_id") %}
+
+                <a href="/orders">
+                    My Orders
+                </a>
+
+                <a href="/logout">
+                    Logout
+                </a>
+
+            {% else %}
+
+                <a href="/login">
+                    Login
+                </a>
+
+                <a href="/register">
+                    Register
+                </a>
+
+            {% endif %}
+
+
+            <a href="/cart">
+
+                🛒 Cart
+
+                <span class="cart-count">
+                    0
+                </span>
+
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <div class="container">
+
+
+        <div class="page-header">
+
+            <h1>
+                🛒 Shopping Cart
+            </h1>
+
+
+            <button
+                class="clear-cart-btn"
+                onclick="clearCart()"
+            >
+                🗑️ Clear Cart
+            </button>
+
+        </div>
+
+
+        <div class="cart-layout">
+
+
+            <div id="cart-items">
+
+            </div>
+
+
+            <div class="cart-summary">
+
+                <h2>
+                    Order Summary
+                </h2>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        Items
+                    </span>
+
+                    <span id="cart-total-items">
+                        0
+                    </span>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        Subtotal
+                    </span>
+
+                    <span id="cart-subtotal">
+                        ₹0.00
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="summary-row summary-total"
+                >
+
+                    <span>
+                        Total
+                    </span>
+
+                    <span id="cart-total">
+                        ₹0.00
+                    </span>
+
+                </div>
+
+
+                <input
+                    type="hidden"
+                    id="checkout-total"
+                    value="0"
+                >
+
+
+                {% if session.get("user_id") %}
+
+                    <a
+                        href="/checkout"
+                        id="checkout-button"
+                        class="checkout-btn"
+                    >
+                        Proceed to Checkout
+                    </a>
+
+                {% else %}
+
+                    <a
+                        href="/login"
+                        class="checkout-btn"
+                    >
+                        Login to Checkout
+                    </a>
+
+                {% endif %}
+
+
+                <a
+                    href="/products"
+                    class="continue-shopping"
+                >
+                    ← Continue Shopping
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script
+        src="{{ url_for(
+            'static',
+            filename='js/script.js'
+        ) }}"
+    ></script>
+
+
+</body>
+
+</html>

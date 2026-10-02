@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Order Successful - ShopKart</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            background: #f5f7fb;
+
+            color: #222;
+
+        }
+
+
+        /* ==================================================
+           NAVBAR
+        ================================================== */
+
+        .navbar {
+
+            background: #111827;
+
+            padding: 15px 40px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+        }
+
+
+        .logo {
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 22px;
+
+            font-weight: bold;
+
+        }
+
+
+        .nav-links {
+
+            display: flex;
+
+            gap: 20px;
+
+            align-items: center;
+
+        }
+
+
+        .nav-links a {
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+        }
+
+
+        .nav-links a:hover {
+
+            color: #60a5fa;
+
+        }
+
+
+        /* ==================================================
+           SUCCESS CONTAINER
+        ================================================== */
+
+        .success-container {
+
+            max-width: 700px;
+
+            margin: 80px auto;
+
+            padding: 20px;
+
+        }
+
+
+        .success-card {
+
+            background: white;
+
+            border-radius: 15px;
+
+            padding: 45px 30px;
+
+            text-align: center;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0, 0, 0, 0.08);
+
+        }
+
+
+        /* ==================================================
+           SUCCESS ICON
+        ================================================== */
+
+        .success-icon {
+
+            width: 90px;
+
+            height: 90px;
+
+            margin: 0 auto 25px;
+
+            border-radius: 50%;
+
+            background: #dcfce7;
+
+            color: #16a34a;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            font-size: 50px;
+
+            font-weight: bold;
+
+        }
+
+
+        /* ==================================================
+           HEADING
+        ================================================== */
+
+        .success-card h1 {
+
+            color: #16a34a;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .success-card p {
+
+            color: #555;
+
+            line-height: 1.6;
+
+        }
+
+
+        /* ==================================================
+           ORDER ID
+        ================================================== */
+
+        .order-id-box {
+
+            margin: 25px auto;
+
+            padding: 15px;
+
+            background: #f3f4f6;
+
+            border-radius: 8px;
+
+            max-width: 400px;
+
+        }
+
+
+        .order-id-box span {
+
+            color: #666;
+
+            font-size: 14px;
+
+        }
+
+
+        .order-id-box strong {
+
+            display: block;
+
+            margin-top: 5px;
+
+            color: #111827;
+
+            font-size: 22px;
+
+        }
+
+
+        /* ==================================================
+           BUTTONS
+        ================================================== */
+
+        .button-container {
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 15px;
+
+            margin-top: 30px;
+
+            flex-wrap: wrap;
+
+        }
+
+
+        .btn {
+
+            display: inline-block;
+
+            padding: 12px 22px;
+
+            border-radius: 6px;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+        }
+
+
+        .primary-btn {
+
+            background: #2563eb;
+
+            color: white;
+
+        }
+
+
+        .primary-btn:hover {
+
+            background: #1d4ed8;
+
+        }
+
+
+        .secondary-btn {
+
+            background: #e5e7eb;
+
+            color: #111827;
+
+        }
+
+
+        .secondary-btn:hover {
+
+            background: #d1d5db;
+
+        }
+
+
+        /* ==================================================
+           RESPONSIVE
+        ================================================== */
+
+        @media (max-width: 700px) {
+
+            .navbar {
+
+                padding: 15px 20px;
+
+            }
+
+
+            .nav-links {
+
+                gap: 10px;
+
+            }
+
+
+            .success-container {
+
+                margin: 40px auto;
+
+            }
+
+
+            .success-card {
+
+                padding: 35px 20px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ==================================================
+         NAVBAR
+    ================================================== -->
+
+    <nav class="navbar">
+
+        <a
+            href="/"
+            class="logo"
+        >
+            🛒 ShopKart
+        </a>
+
+
+        <div class="nav-links">
+
+            <a href="/">
+                Home
+            </a>
+
+
+            <a href="/products">
+                Products
+            </a>
+
+
+            <a href="/orders">
+                My Orders
+            </a>
+
+
+            <a href="/logout">
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- ==================================================
+         SUCCESS
+    ================================================== -->
+
+    <div class="success-container">
+
+        <div class="success-card">
+
+
+            <div class="success-icon">
+
+                ✓
+
+            </div>
+
+
+            <h1>
+
+                Order Placed Successfully!
+
+            </h1>
+
+
+            <p>
+
+                Thank you for shopping with
+                <strong>ShopKart</strong>.
+
+            </p>
+
+
+            <p>
+
+                Your order has been received
+                successfully.
+
+            </p>
+
+
+            <!-- ORDER ID -->
+
+            <div class="order-id-box">
+
+                <span>
+                    Your Order ID
+                </span>
+
+
+                <strong>
+
+                    #{{ order_id }}
+
+                </strong>
+
+            </div>
+
+
+            <p>
+
+                You can track your order status
+                from the <strong>My Orders</strong>
+                section.
+
+            </p>
+
+
+            <!-- BUTTONS -->
+
+            <div class="button-container">
+
+
+                <a
+                    href="/orders"
+                    class="btn primary-btn"
+                >
+
+                    📦 View My Orders
+
+                </a>
+
+
+                <a
+                    href="/products"
+                    class="btn secondary-btn"
+                >
+
+                    🛍️ Continue Shopping
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</body>
+
+</html>

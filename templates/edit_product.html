@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        ShopKart - Edit Product
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+    <style>
+
+        .edit-page {
+            padding: 40px 5%;
+            min-height: 80vh;
+        }
+
+        .edit-container {
+            max-width: 650px;
+            margin: auto;
+
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0, 0, 0, 0.08);
+        }
+
+        .edit-container h1 {
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+
+            width: 100%;
+
+            box-sizing: border-box;
+
+            padding: 11px;
+
+            border: 1px solid #ddd;
+
+            border-radius: 6px;
+
+            font-size: 14px;
+
+        }
+
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        .current-image-box {
+            margin-top: 10px;
+
+            padding: 15px;
+
+            background: #f5f5f5;
+
+            border-radius: 8px;
+
+            text-align: center;
+        }
+
+        .current-image {
+            width: 200px;
+            height: 200px;
+
+            object-fit: contain;
+
+            background: white;
+
+            border-radius: 8px;
+
+            padding: 5px;
+
+            border: 1px solid #ddd;
+        }
+
+        .image-preview-box {
+            display: none;
+
+            margin-top: 15px;
+
+            padding: 15px;
+
+            background: #f5f5f5;
+
+            border-radius: 8px;
+
+            text-align: center;
+        }
+
+        .image-preview {
+            width: 200px;
+            height: 200px;
+
+            object-fit: contain;
+
+            background: white;
+
+            border-radius: 8px;
+
+            padding: 5px;
+
+            border: 1px solid #ddd;
+        }
+
+        .button-row {
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 25px;
+        }
+
+        .update-btn {
+            flex: 1;
+
+            border: none;
+
+            padding: 12px;
+
+            background: #2563eb;
+
+            color: white;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+        .update-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .cancel-btn {
+            flex: 1;
+
+            padding: 12px;
+
+            background: #f3f4f6;
+
+            color: #111;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            border-radius: 6px;
+
+            box-sizing: border-box;
+        }
+
+        .error-message {
+            background: #fee2e2;
+
+            color: #b91c1c;
+
+            padding: 12px;
+
+            border-radius: 6px;
+
+            margin-bottom: 20px;
+        }
+
+        .help-text {
+            color: #777;
+
+            font-size: 12px;
+
+            margin-top: 6px;
+
+            display: block;
+        }
+
+        @media (max-width: 600px) {
+
+            .edit-container {
+                padding: 20px;
+            }
+
+            .button-row {
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        🛒 ShopKart Admin
+    </div>
+
+    <div class="nav-links">
+
+        <a href="/admin">
+            Dashboard
+        </a>
+
+        <a href="/admin/products">
+            Products
+        </a>
+
+        <a href="/admin/orders">
+            Orders
+        </a>
+
+        <a href="/products">
+            Store
+        </a>
+
+        <a href="/logout">
+            Logout
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =====================================================
+     EDIT PRODUCT
+===================================================== -->
+
+<section class="edit-page">
+
+
+    <div class="edit-container">
+
+
+        <h1>
+            Edit Product ✏️
+        </h1>
+
+
+        <p class="subtitle">
+            Update your product information.
+        </p>
+
+
+
+        <!-- ERROR -->
+
+        {% if error %}
+
+        <div class="error-message">
+
+            {{ error }}
+
+        </div>
+
+        {% endif %}
+
+
+
+        <!-- =================================================
+             FORM
+        ================================================== -->
+
+        <form
+            action="{{ url_for(
+                'edit_product',
+                product_id=product['id']
+            ) }}"
+            method="POST"
+            enctype="multipart/form-data"
+        >
+
+
+            <!-- PRODUCT NAME -->
+
+            <div class="form-group">
+
+                <label for="name">
+                    Product Name
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value="{{ product['name'] }}"
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- DESCRIPTION -->
+
+            <div class="form-group">
+
+                <label for="description">
+                    Description
+                </label>
+
+                <textarea
+                    id="description"
+                    name="description"
+                    rows="4"
+                    required
+                >{{ product['description'] }}</textarea>
+
+            </div>
+
+
+
+            <!-- PRICE -->
+
+            <div class="form-group">
+
+                <label for="price">
+                    Price (₹)
+                </label>
+
+                <input
+                    type="number"
+                    id="price"
+                    name="price"
+                    value="{{ product['price'] }}"
+                    step="0.01"
+                    min="0"
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- CATEGORY -->
+
+            <div class="form-group">
+
+                <label for="category">
+                    Category
+                </label>
+
+                <select
+                    id="category"
+                    name="category"
+                    required
+                >
+
+                    <option value="">
+                        Select Category
+                    </option>
+
+                    <option
+                        value="Electronics"
+                        {% if product['category'] == 'Electronics' %}
+                            selected
+                        {% endif %}
+                    >
+                        Electronics
+                    </option>
+
+                    <option
+                        value="Fashion"
+                        {% if product['category'] == 'Fashion' %}
+                            selected
+                        {% endif %}
+                    >
+                        Fashion
+                    </option>
+
+                    <option
+                        value="Home & Kitchen"
+                        {% if product['category'] == 'Home & Kitchen' %}
+                            selected
+                        {% endif %}
+                    >
+                        Home & Kitchen
+                    </option>
+
+                    <option
+                        value="Beauty"
+                        {% if product['category'] == 'Beauty' %}
+                            selected
+                        {% endif %}
+                    >
+                        Beauty
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- STOCK -->
+
+            <div class="form-group">
+
+                <label for="stock">
+                    Stock
+                </label>
+
+                <input
+                    type="number"
+                    id="stock"
+                    name="stock"
+                    value="{{ product['stock'] }}"
+                    min="0"
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- =================================================
+                 CURRENT IMAGE
+            ================================================== -->
+
+            <div class="form-group">
+
+                <label>
+                    Current Product Image
+                </label>
+
+
+                <div class="current-image-box">
+
+
+                    {% if product['image'] %}
+
+                        <img
+                            src="{{ url_for(
+                                'static',
+                                filename='images/' + product['image']
+                            ) }}"
+                            alt="{{ product['name'] }}"
+                            class="current-image"
+                        >
+
+                        <p>
+                            {{ product['image'] }}
+                        </p>
+
+                    {% else %}
+
+                        <div
+                            style="
+                                font-size:60px;
+                            "
+                        >
+                            📦
+                        </div>
+
+                        <p>
+                            No image available
+                        </p>
+
+                    {% endif %}
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 NEW IMAGE
+            ================================================== -->
+
+            <div class="form-group">
+
+                <label for="image">
+                    Change Product Image
+                </label>
+
+
+                <input
+                    type="file"
+                    id="image"
+                    name="image"
+                    accept=".jpg,.jpeg,.png,.webp"
+                >
+
+
+                <small class="help-text">
+
+                    Leave empty if you want to keep
+                    the current image.
+
+                    <br>
+
+                    Supported:
+                    JPG, JPEG, PNG, WEBP
+
+                </small>
+
+
+
+                <!-- IMAGE PREVIEW -->
+
+                <div
+                    class="image-preview-box"
+                    id="image-preview-box"
+                >
+
+                    <p>
+                        New Image Preview
+                    </p>
+
+
+                    <img
+                        id="image-preview"
+                        class="image-preview"
+                        src=""
+                        alt="New Image Preview"
+                    >
+
+                </div>
+
+            </div>
+
+
+
+            <!-- BUTTONS -->
+
+            <div class="button-row">
+
+
+                <button
+                    type="submit"
+                    class="update-btn"
+                >
+                    Update Product
+                </button>
+
+
+                <a
+                    href="/admin/products"
+                    class="cancel-btn"
+                >
+                    Cancel
+                </a>
+
+
+            </div>
+
+
+        </form>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+    <p>
+        © 2026 ShopKart Admin.
+        All Rights Reserved.
+    </p>
+
+</footer>
+
+
+
+<!-- =====================================================
+     IMAGE PREVIEW JAVASCRIPT
+===================================================== -->
+
+<script>
+
+    const imageInput =
+        document.getElementById("image");
+
+
+    const previewBox =
+        document.getElementById(
+            "image-preview-box"
+        );
+
+
+    const previewImage =
+        document.getElementById(
+            "image-preview"
+        );
+
+
+    imageInput.addEventListener(
+        "change",
+        function() {
+
+
+            const file =
+                this.files[0];
+
+
+            if (!file) {
+
+                previewBox.style.display =
+                    "none";
+
+                previewImage.src = "";
+
+                return;
+
+            }
+
+
+            const allowedTypes = [
+
+                "image/jpeg",
+
+                "image/jpg",
+
+                "image/png",
+
+                "image/webp"
+
+            ];
+
+
+            if (
+                !allowedTypes.includes(
+                    file.type
+                )
+            ) {
+
+                alert(
+                    "Please select JPG, JPEG, PNG or WEBP image."
+                );
+
+
+                this.value = "";
+
+
+                previewBox.style.display =
+                    "none";
+
+                return;
+
+            }
+
+
+            const imageURL =
+                URL.createObjectURL(
+                    file
+                );
+
+
+            previewImage.src =
+                imageURL;
+
+
+            previewBox.style.display =
+                "block";
+
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>
